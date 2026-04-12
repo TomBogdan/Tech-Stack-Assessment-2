@@ -1,13 +1,13 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import ShareResource from './pages/ShareResource';
-import CreateProfile from './pages/CreateProfile';
-import About from './pages/About';
-import ContactUs from './pages/ContactUs';
+import Header from './Components/Header';
+import Home from './Pages/Home';
+import Profile from './Pages/Profile';
+import ShareResource from './Pages/ShareResource';
+import CreateProfile from './Pages/CreateProfile';
+import About from './Pages/About';
+import ContactUs from './Pages/ContactUs';
 
 
 
