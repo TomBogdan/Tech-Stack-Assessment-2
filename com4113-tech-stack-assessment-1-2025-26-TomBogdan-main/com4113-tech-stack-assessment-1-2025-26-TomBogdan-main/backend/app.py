@@ -13,6 +13,7 @@ client = MongoClient(
 
 db = client["skill_swap_db"]
 resources_collection = db["resources"]
+users_collection = db["users"]
 
 
 @app.route('/api/test')
@@ -45,6 +46,38 @@ def get_resources():
         r["_id"] = str(r["_id"])
 
     return jsonify(resources)
+
+
+@app.route("/api/profile", methods=["POST"])
+def save_profile():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "Invalid JSON"}), 400
+
+    if not data.get("name") or not data.get("email"):
+        return jsonify({"error": "Name and email are required"}), 400
+
+    # Single-user MVP approach:
+    users_collection.delete_many({})  # remove existing profile
+    users_collection.insert_one(data)
+
+    return jsonify({"message": "Profile saved"}), 201
+
+
+@app.route("/api/profile", methods=["GET"])
+def get_profile():
+    user = users_collection.find_one()
+
+    if not user:
+        return jsonify({}), 200
+
+    user["_id"] = str(user["_id"])
+    return jsonify(user)
+
+
+
+
 
 
 

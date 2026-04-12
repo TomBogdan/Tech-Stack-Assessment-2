@@ -21,13 +21,25 @@ const CreateProfile = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload
-    // Navigate to Profile page and pass form data as state
-    navigate('/profile', { state: formData });
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
 
+  fetch("http://127.0.0.1:5000/api/profile", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(formData)
+  })
+    .then(res => res.json())
+    .then(() => {
+      navigate("/profile");
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Failed to save profile");
+    });
+};
 
 const handleFileChange = (e) => {
   const file = e.target.files[0];
