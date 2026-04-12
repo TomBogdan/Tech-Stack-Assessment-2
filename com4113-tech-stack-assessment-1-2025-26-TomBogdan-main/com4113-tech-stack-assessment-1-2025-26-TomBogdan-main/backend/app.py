@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, origins=["http://localhost:3000"])
+
 
 
 client = MongoClient(
@@ -49,31 +51,38 @@ def get_resources():
 
 
 @app.route("/api/profile", methods=["POST"])
-def save_profile():
-    data = request.get_json()
+def create_or_update_profile():
+    data = request.json
 
-    if not data:
-        return jsonify({"error": "Invalid JSON"}), 400
+    if not data.get("email"):
+        return jsonify({"error": "Email required"}), 400
 
-    if not data.get("name") or not data.get("email"):
-        return jsonify({"error": "Name and email are required"}), 400
+    db.users.update_one(
+        {"email": data["email"]},   # UNIQUE identifier
+        {"$set": data},
+        upsert=True                 # ✅ THIS FIXES EVERYTHING
+    )
 
-    # Single-user MVP approach:
-    users_collection.delete_many({})  # remove existing profile
-    users_collection.insert_one(data)
+    return jsonify({"message": "Profile saved"}), 200
 
-    return jsonify({"message": "Profile saved"}), 201
+
+
+    
 
 
 @app.route("/api/profile", methods=["GET"])
 def get_profile():
-    user = users_collection.find_one()
+    email = request.args.get("email")
 
-    if not user:
-        return jsonify({}), 200
+    if not email:
+        return jsonify({}), 400
 
-    user["_id"] = str(user["_id"])
-    return jsonify(user)
+    user = db.users.find_one(
+        {"email": email},
+        {"_id": 0, "password": 0}
+    )
+
+    return jsonify(user or {})
 
 
 
