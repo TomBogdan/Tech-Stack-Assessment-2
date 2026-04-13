@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
@@ -85,10 +87,50 @@ def get_profile():
     return jsonify(user or {})
 
 
+@app.route("/api/bookmark", methods=["POST"])
+def bookmark_resource():
+    data = request.json
+
+    email = data.get("email")
+    resource_id = data.get("resource_id")
+
+    if not email or not resource_id:
+        return jsonify({"error": "Missing data"}), 400
+
+    db.users.update_one(
+        {"email": email},
+        {"$addToSet": {"bookmarks": resource_id}}  # prevent duplicates
+    )
+
+    return jsonify({"message": "Resource bookmarked"}), 200
+
+
+@app.route("/api/bookmarks", methods=["GET"])
+def get_bookmarks():
+    email = request.args.get("email")
+
+    if not email:
+        return jsonify([])
+
+    user = db.users.find_one({"email": email})
+
+    if not user or "bookmarks" not in user:
+        return jsonify([])
+
+    resources = list(
+        db.resources.find(
+            {"_id": {"$in": user["bookmarks"]}},
+            {"_id": 0}
+        )
+    )
+
+    return jsonify(resources)
 
 
 
 
+
+print(app.url_map)
 
 if __name__ == '__main__':
     app.run(debug=True)

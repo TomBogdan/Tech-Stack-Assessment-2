@@ -28,7 +28,7 @@ const Profile = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:5000/api/profile?email=${email}`)
+    fetch(`http://localhost:5000/api/profile?email=${email}`)
       .then(res => res.json())
       .then(data => {
         console.log("Profile GET response:", data);
@@ -57,7 +57,7 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    fetch("http://127.0.0.1:5000/api/profile", {
+    fetch("http://localhost:5000/api/profile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
