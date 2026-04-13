@@ -1,0 +1,18 @@
+Current thoughts on Tech Stack:
+Linux as an operating system seems to be a good choice, however for this assignment, the backend doesnt currently matter. (Not until Semester 2 anyway)
+
+However MEAN seems particularly attractive as it is very JS heavy, the MongoDB part of course doesnt matter currently
+Angular seems to be a good technology to use especially given its synthesis with Node and Express
+MEAN is supposedly good for simplifying web development which is good for me given the lack of time
+Given some research, React seems to be the better service to use for Front-End javascript development, given its lightweight nature and simplicity.
+
+Based on this i believe i will choose MERN as my chosen tech stack rather than MEAN or LAMP
+
+General Notes and planning:
+
+After alot of troubleshooting and messing with copilot i was able to get a pretty decent looking framework with a folder structure
+ that makes sense to me and is sleek looking.
+
+ After more tweaks and adding features, i now have a mostly functional mockup of a Skill Swap Hub website.
+
+ I have added a few more quality of life updates such as a logo for the site, and making interacting with the site a much smoother process
