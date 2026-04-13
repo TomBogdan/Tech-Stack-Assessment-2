@@ -56,16 +56,29 @@ def get_resources():
 def create_or_update_profile():
     data = request.json
 
-    if not data.get("email"):
-        return jsonify({"error": "Email required"}), 400
+    if not data.get("email") or not data.get("password"):
+        return jsonify({"error": "Email and password required"}), 400
+
+    # ✅ HASH PASSWORD
+    hashed_password = generate_password_hash(data["password"])
+
+    user_data = {
+        "name": data.get("name"),
+        "email": data.get("email"),
+        "password": hashed_password,  # ✅ store hash only
+        "avatar": data.get("avatar"),
+        "pronouns": data.get("pronouns"),
+        "phone": data.get("phone")
+    }
 
     db.users.update_one(
-        {"email": data["email"]},   # UNIQUE identifier
-        {"$set": data},
-        upsert=True                 # ✅ THIS FIXES EVERYTHING
+        {"email": data["email"]},
+        {"$set": user_data},
+        upsert=True
     )
 
-    return jsonify({"message": "Profile saved"}), 200
+    return jsonify({"message": "Profile saved securely"}), 200
+
 
 
 
@@ -127,8 +140,41 @@ def get_bookmarks():
     return jsonify(resources)
 
 
+@app.route("/api/login", methods=["POST"])
+def login():
+    data = request.json
+
+    if not data.get("email") or not data.get("password"):
+        return jsonify({"error": "Email and password required"}), 400
+
+    user = db.users.find_one({"email": data["email"]})
+
+    if not user:
+        return jsonify({"error": "Invalid credentials"}), 401
+
+    # ✅ Compare hashed password
+    if check_password_hash(user["password"], data["password"]):
+        return jsonify({
+            "message": "Login successful",
+            "email": user["email"]
+        }), 200
+
+    return jsonify({"error": "Invalid credentials"}), 401
 
 
+@app.route("/api/auth-check", methods=["GET"])
+def auth_check():
+    email = request.args.get("email")
+
+    if not email:
+        return jsonify({"authenticated": False}), 401
+
+    user = db.users.find_one({"email": email})
+
+    if user:
+        return jsonify({"authenticated": True}), 200
+
+    return jsonify({"authenticated": False}), 401
 
 print(app.url_map)
 
