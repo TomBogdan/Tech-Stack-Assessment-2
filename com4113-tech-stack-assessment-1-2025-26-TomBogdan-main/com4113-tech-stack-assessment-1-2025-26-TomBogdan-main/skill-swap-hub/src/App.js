@@ -19,10 +19,13 @@ function App() {
 
       <div className="container mt-4">
         <Routes>
-          {/* ✅ Public route */}
+          {/* ✅ PUBLIC ROUTES */}
           <Route path="/login" element={<Login />} />
+          <Route path="/createprofile" element={<CreateProfile />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contactus" element={<ContactUs />} />
 
-          {/* ✅ Protected routes */}
+          {/* ✅ PROTECTED ROUTES */}
           <Route
             path="/"
             element={
@@ -49,19 +52,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          <Route
-            path="/createprofile"
-            element={
-              <ProtectedRoute>
-                <CreateProfile />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ✅ Public info pages */}
-          <Route path="/about" element={<About />} />
-          <Route path="/contactus" element={<ContactUs />} />
         </Routes>
       </div>
     </Router>
