@@ -1,6 +1,6 @@
 ## Github Repository Link
 
-https://github.com/CS-LTU/com4113-tech-stack-assessment-1-2025-26-TomBogdan?tab=readme-ov-file
+https://github.com/TomBogdan/Tech-Stack-Assessment-2
 
 *I have utilised version control throughout this project to allow me to safely experiment with features, roll back changes when necessary, and maintain a clear record of development progress over time.*
 
