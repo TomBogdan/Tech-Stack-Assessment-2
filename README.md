@@ -174,6 +174,23 @@ Implementing secure authentication highlighted the importance of separating fron
 - Cloud deployment and scalability enhancements
 - Content moderation tools
 
+
+## Project Plan (Gantt Chart)
+
+The table below outlines the development timeline for the backend and full‑stack integration of Skill Swap Hub, following the completion of the frontend prototype in a previous assessment.
+
+| Week | Dates | Task | Description |
+|----|------|------|------------|
+| Week 1 | 23 Feb – 1 Mar | Backend Planning | Review frontend requirements, plan API structure and data models |
+| Week 2 | 2 Mar – 8 Mar | Flask Setup | Flask configuration, project structure, initial API routes |
+| Week 3 | 9 Mar – 15 Mar | MongoDB Integration | Database setup, users and resources collections |
+| Week 4 | 16 Mar – 22 Mar | Resource Persistence | POST and GET routes for resources, database testing |
+| Week 5 | 23 Mar – 29 Mar | Authentication | User registration, login, password hashing |
+| Week 6 | 30 Mar – 6 Apr | Access Control | Protected routes, session handling, logout |
+| Week 7 | 7 Apr – 14 Apr | Testing & Documentation | Bug fixing, security review, README finalisation |
+
+
+
 ## Conclusion
 
 This project successfully demonstrates the transition from a static frontend prototype to a secure, data-driven full-stack web application. It demonstrates an equilibrium between elegant looking web applications and efficient databases to manage user data.
